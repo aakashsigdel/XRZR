@@ -1,24 +1,16 @@
+import { combineReducers } from 'redux';
+import exercises from './exercises';
+import userPlans from './userPlans';
+import videos from './videos';
+import uiState from './uiState';
+
 const initialState = {
-  exercises: [
-    {
-      title: 'Push up Heavy Metal',
-      photo: '',
-    },
-    {
-      title: 'Moving metal out of the house',
-      photo: '',
-    },
-    {
-      title: 'Pull metal back in again',
-      photo: '',
-    },
-  ],
   userPlans: [],
   videos: [],
   uiState: {},
 }
 
-const xrzrApp = combineReducer({
+const xrzrApp = combineReducers({
   exercises,
   userPlans,
   videos,

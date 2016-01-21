@@ -1,4 +1,4 @@
-function uiState (state = {}, action) {
+export default function uiState (state = {}, action) {
   return state;
 }
 

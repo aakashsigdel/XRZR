@@ -1,4 +1,6 @@
-function userPlans (state = [], action) {
+import { ADD_USER_PLAN } from '../constants/actionTypes';
+
+export default function userPlans (state = [], action) {
   switch (action.type) {
     case ADD_USER_PLAN:
       return [
