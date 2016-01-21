@@ -1,6 +1,8 @@
 'use strict';
 
-import React, { AppRegistry } from 'react-native';
+import React, { AppRegistry, StatusBarIOS } from 'react-native';
 import App from './containers/App';
+
+StatusBarIOS.setHidden(true);
 
 AppRegistry.registerComponent('XRZR', () => App);
