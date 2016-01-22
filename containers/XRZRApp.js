@@ -8,39 +8,7 @@ import React, {
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
-import NavBar from '../components/NavBar';
 import Rutine from '../components/Rutine';
-
-const VIEWPORT = Dimensions.get('window');
-const HEADERBAR_HEIGHT = 0.096 * VIEWPORT.height;
-
-const navBar = (
-  <NavBar
-    leftText="aakash"
-    leftCustom={
-      <Image
-        source={require('../assets/images/hamburger.png')}
-        style={{
-          width: 25,
-          height: 25,
-          resizeMode: 'contain',
-          marginTop: 10,
-        }}
-      />
-      }
-      leftClickFunc={ _=> {} }
-      midText="TRX Rutine"
-      midStyle={{marginTop: 10}}
-      rightText="+"
-      rightStyle={{
-        fontSize: 40,
-        fontWeight: '200',
-        marginTop: 10,
-      }}
-      rightClickFunc={ _=> {} }
-      backgroundColor="#F90035"
-    />
-);
 
 export default class XRZRApp extends Component {
   constructor (props) {
@@ -70,9 +38,7 @@ export default class XRZRApp extends Component {
     }
   };
 
-  _selectRoute = (route, navigator) => {
-    console.log(route.name);
-    console.log(this.props);
+  _renderScene = (route, navigator) => {
     switch (route.name) {
       case 'rutine':
         return <Rutine
@@ -80,18 +46,6 @@ export default class XRZRApp extends Component {
           exercises={this.props.state.exercises}
         />;
     }
-  };
-
-  _renderScene = (route, navigator) => {
-    return (
-      <View
-        style={{
-          paddingTop: HEADERBAR_HEIGHT,
-        }}
-      >
-        {this._selectRoute(route, navigator)}
-      </View>
-    );
   };
 
   render () {
@@ -102,17 +56,7 @@ export default class XRZRApp extends Component {
         initialRoute={{name: 'rutine'}}
         renderScene={this._renderScene}
         sceneStyle={{backgroundColor: 'black'}}
-        navigationBar={navBar}
       />
-      // <View>
-      //     {( _ => {
-      //       return state.map((exercise, index) => {
-      //         return (
-      //           null
-      //         );
-      //       })
-      //     })()}
-      //   </View>
     );
   }
 }

@@ -12,15 +12,17 @@ export default styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#181C20',
-    marginBottom: 10,
+    marginBottom: 6,
   },
   text: {
     fontSize: 18,
-    color: 'white',
+    fontWeight: '100',
     fontFamily: 'Lato-Light',
+    color: 'grey',
   },
   titleImage: {
-    height: 80,
-    width: 80,
+    height: 75,
+    width: 75,
+    marginRight: 20,
   },
 });
