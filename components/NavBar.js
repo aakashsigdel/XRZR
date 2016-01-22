@@ -4,9 +4,12 @@
  * Custom NavBar Component
  * =======================
  * props:
- *    - left, mid, right => text for the three places for navbar
+ *    - leftText, midText, rightText => text for the three places for navbar
  *    - customLeft, customMid, customRight => custom element for the three places of navbar
  *    - leftClickFunc, midClickFunc, rightClickFunc => function for all three places
+ *    - leftStyle, midStyle, rightStyle => styles for left, mid and right text
+ *    - height: height of the navBar
+ *    - backgroundColor: backgroundColor of navBar
 */
 
 import React, {
@@ -27,21 +30,21 @@ export default class NavBar extends Component {
   };
 
   _generateComponent = (
-    element, customElement, styles,
+    element, customElement, textStyles,
     func
   ) => {
     if(func) {
       return (
         <TouchableOpacity
-          acitveOpacity={0.7}
-          style={{flex: 1}}
+          activeOpacity={0.7}
+          style={styles.clickable}
         >
-          {this._generateInnerElement(element, styles, customElement)}
+          {this._generateInnerElement(element, textStyles, customElement)}
         </TouchableOpacity>
 
       );
     }
-    return (this._generateInnerElement(element, styles, customElement));
+    return (this._generateInnerElement(element, textStyles, customElement));
   };
 
   render () {

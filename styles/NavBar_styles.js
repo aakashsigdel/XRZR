@@ -5,6 +5,10 @@ const HEADERBAR_HEIGHT = 0.096 * VIEWPORT.height;
 
 export default styles = {
   container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     height: HEADERBAR_HEIGHT, 
     width: VIEWPORT.width,
     flexDirection: 'row',
@@ -39,5 +43,10 @@ export default styles = {
   text: {
     color: 'white',
     fontSize: 18,
+  },
+  clickable: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   }
 }
