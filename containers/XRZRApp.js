@@ -72,10 +72,12 @@ export default class XRZRApp extends Component {
 
   _selectRoute = (route, navigator) => {
     console.log(route.name);
+    console.log(this.props);
     switch (route.name) {
       case 'rutine':
         return <Rutine
-          {...this.props}
+          dispatch={this.props.dispatch}
+          exercises={this.props.state.exercises}
         />;
     }
   };
@@ -115,6 +117,4 @@ export default class XRZRApp extends Component {
   }
 }
 
-export default connect(state => ({
-  state: state.exercises
-}))(XRZRApp)
+export default connect(state => ({state: state}))(XRZRApp)

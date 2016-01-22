@@ -15,7 +15,7 @@ export default class Rutine extends Component {
       <ScrollView contentContainerStyle={styles.container}>
         {
           ( _=> {
-            return this.props.state.map ((item, index) => {
+            return this.props.exercises.map ((item, index) => {
               return (
                 <View
                   key={index}
@@ -23,6 +23,7 @@ export default class Rutine extends Component {
                 >
                   <Image
                     source={require('../assets/images/rowPlaceholder.png')}
+                    style={styles.titleImage}
                   />
                   <Text
                     style={styles.text}
