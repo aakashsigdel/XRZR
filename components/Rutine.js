@@ -54,7 +54,7 @@ export default class Rutine extends Component {
                     <Text
                       style={styles.text}
                     >
-                      {item.title} 
+                      {index + 1 + '.   ' + item.title} 
                     </Text>
                   </View>
                   )
