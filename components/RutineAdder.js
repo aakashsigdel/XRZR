@@ -14,11 +14,11 @@ class NavigationBar extends Component {
       <NavBar
         midText="Add Rutine"
         midStyle={{marginTop: 10}}
-        rightText="*"
+        rightText="x"
         rightStyle={{
-            fontSize: 40,
+            fontSize: 35,
             fontWeight: '200',
-            marginTop: 10,
+            marginTop: 5
           }}
         rightClickFunc={ _=> {this.props.navigator.pop()} }
         backgroundColor="#F90035"
