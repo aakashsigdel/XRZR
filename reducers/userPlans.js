@@ -9,7 +9,7 @@ export default function userPlans (state = [], action) {
           exerciseId: action.exerciseId,
           videoId: action.videoId,
           updateAt: Date.now(),
-          updateBy: action.updatedBy,
+          updatedBy: action.updatedBy,
         }
       ];
     default:

@@ -1,13 +1,16 @@
-import * as actionTypes from './constants/actionTypes';
+import * as actionTypes from '../constants/actionTypes';
 
-export addUserPlan(userPlan) {
+export function addUserPlan(exerciseId) {
   return {
     type: actionTypes.ADD_USER_PLAN,
-    userPlan,
+    exerciseId: exerciseId,
+    videoId: "",
+    updatedBy: "me me"
+
   };
 }
 
-export addVideo(video) {
+export function addVideo(video) {
   return {
     type: actionTypes.ADD_VIDEO,
     video,

@@ -37,6 +37,7 @@ export default class NavBar extends Component {
       return (
         <TouchableOpacity
           activeOpacity={0.7}
+          onPress={func}
           style={styles.clickable}
         >
           {this._generateInnerElement(element, textStyles, customElement)}

@@ -12,6 +12,8 @@ var {
   View,
 } = React;
 
+import App from './containers/App';
+
 var XRZR = React.createClass({
   render: function() {
     return (
@@ -49,4 +51,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('XRZR', () => XRZR);
+AppRegistry.registerComponent('XRZR', () => App);

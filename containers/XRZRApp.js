@@ -6,9 +6,12 @@ import React, {
   Image,
   Navigator,
   View,
+  Text,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Rutine from '../components/Rutine';
+import RutineAdder from "../components/RutineAdder";
+import {addUserPlan} from "../actions/index"
 
 export default class XRZRApp extends Component {
   constructor (props) {
@@ -44,7 +47,21 @@ export default class XRZRApp extends Component {
         return <Rutine
           dispatch={this.props.dispatch}
           exercises={this.props.state.exercises}
+          navigator={navigator}
         />;
+      case 'rutine_adder':
+        return <RutineAdder
+          exercises={this.props.state.exercises}
+          state={this.props.state}
+          navigator={navigator}
+          onExerciseItemSelect={
+            (exerciseId)=>{this.props.dispatch(addUserPlan(exerciseId))}
+            }
+          />
+      default:
+        return <Text style={{color:"white"}}>
+          You are doomed!!!
+        </Text>
     }
   };
 

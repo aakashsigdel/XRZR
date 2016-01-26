@@ -15,7 +15,6 @@ export default class Rutine extends Component {
     return (
       <View>
       <NavBar
-        leftText="aakash"
         leftCustom={
           <Image
             source={require('../assets/images/hamburger.png')}
@@ -36,7 +35,7 @@ export default class Rutine extends Component {
             fontWeight: '200',
             marginTop: 10,
           }}
-          rightClickFunc={ _=> {} }
+          rightClickFunc={ _=> {this.props.navigator.push({name:"rutine_adder"})} }
           backgroundColor="#F90035"
         />
         <ScrollView contentContainerStyle={styles.container}>
