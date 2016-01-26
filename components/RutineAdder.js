@@ -41,7 +41,7 @@ class RutineItem extends Component {
           <Image source={require("../assets/images/rowPlaceholder.png")}
                  style = {styles.titleImage} />
           <Text style={styles.text} >
-            {this.props.item.title + String(this.props.item)}
+            {this.props.item.title}
           </Text>
         </TouchableOpacity>
     )
@@ -68,9 +68,6 @@ export default class RutineAdder extends Component {
         <NavigationBar navigator={this.props.navigator} />
         <ScrollView contentContainerStyle={styles.container} >
           { exerciseList }
-          <Text style={styles.text} >
-            {JSON.stringify(this.props.state)}
-          </Text>
         </ScrollView>
       </View>
     );
