@@ -6,7 +6,7 @@ export default styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  camera: {
+  contentStyle: {
     width: VIEWPORT.width,
     height: VIEWPORT.width,
   },

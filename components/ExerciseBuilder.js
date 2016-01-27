@@ -8,6 +8,7 @@ import React, {
   View,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import Video from 'react-native-video';
 import NavBar from './NavBar';
 import { VIEWPORT } from '../constants/appConstants';
 import styles from '../styles/ExerciseBuilder_style';
@@ -19,6 +20,7 @@ export default class ExerciseBuilder extends Component {
       cameraType: 'back',
       recordState: 'init', // can have 'init', 'recording', 'play'
       recordingIndicatorLineLength: 0,
+      cameraOrVideo: 'video',
     };
   }
 
@@ -52,12 +54,13 @@ export default class ExerciseBuilder extends Component {
             rightClickFunc={ _=> {this.props.navigator.push({name:'rutine'})} }
             backgroundColor="#F90035"
           />
-          <Camera
-            ref="camera"
-            style={styles.camera}
-            tyle={this.state.cameraType}
-            captureMode={Camera.constants.CaptureMode.video}
-          />
+          { this._renderCameraOrVideo(this.state.cameraOrVideo) }
+          {/* <Camera */}
+          {/*   ref="camera" */}
+          {/*   style={styles.camera} */}
+          {/*   tyle={this.state.cameraType} */}
+          {/*   captureMode={Camera.constants.CaptureMode.video} */}
+          {/* /> */}
           <View
             style={[
               styles.progressBar,
@@ -105,6 +108,27 @@ export default class ExerciseBuilder extends Component {
     );
   }
 
+  _renderCameraOrVideo = option => {
+    if (option === 'camera') {
+      return (
+        <Camera
+          ref="camera"
+          style={styles.contentStyle}
+          tyle={this.state.cameraType}
+          captureMode={Camera.constants.CaptureMode.video}
+        />
+      );
+    } else if (option === 'video') {
+      return (
+        <Video
+          source={{uri: 'assets-library://asset/asset.mov?id=ECD8D9B1-A5DC-41F3-BE5C-6049FCE0D607&ext=mov'}}
+          resizeMode="cover"
+          style={styles.contentStyle}
+        />
+      );
+    }
+  };
+
   _handleRecording = () => {
     /*
      * TODO: Integrate Video player for playback
@@ -135,7 +159,9 @@ export default class ExerciseBuilder extends Component {
         this._clearInterval();
 
         alert('Error: Please try again!');
+        return;
       }
+      console.log('video location: ' + data);
     });
 
     // if everything is okay, start increasing the recording indicator line
