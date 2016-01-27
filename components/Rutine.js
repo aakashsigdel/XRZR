@@ -5,6 +5,7 @@ import React, {
   Image,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import NavBar from './NavBar';
@@ -43,8 +44,10 @@ export default class Rutine extends Component {
             ( _=> {
               return this.props.exercises.map ((item, index) => {
                 return (
-                  <View
+                  <TouchableOpacity
                     key={index}
+                    activeOpacity={0.6}
+                    onPress={ _=> this.props.navigator.push({name: 'builder'}) }
                     style={styles.row}
                   >
                     <Image
@@ -56,7 +59,7 @@ export default class Rutine extends Component {
                     >
                       {index + 1 + '.   ' + item.title} 
                     </Text>
-                  </View>
+                  </TouchableOpacity>
                   )
               })
             })()

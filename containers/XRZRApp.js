@@ -11,6 +11,7 @@ import React, {
 import { connect } from 'react-redux';
 import Rutine from '../components/Rutine';
 import RutineAdder from "../components/RutineAdder";
+import ExerciseBuilder from '../components/ExerciseBuilder';
 import {addUserPlan} from "../actions/index"
 
 export default class XRZRApp extends Component {
@@ -57,6 +58,10 @@ export default class XRZRApp extends Component {
           onExerciseItemSelect={
             (exerciseId)=>{this.props.dispatch(addUserPlan(exerciseId))}
             }
+          />
+        case 'builder':
+          return <ExerciseBuilder
+            navigator={navigator}
           />
       default:
         return <Text style={{color:"white"}}>

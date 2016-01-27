@@ -3,8 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-  },
-  "scripts": {
     "start": "node_modules/react-native/packager/packager.sh",
     "setup_project": "npm run step1; npm run step2",
     "step1": "rm -rf node_modules/react-native/node_modules/react; rm -rf node_modules/react-native/node_modules/fbjs; rm -rf node_modules/react/node_modules/fbjs",
@@ -13,6 +11,7 @@
   "dependencies": {
     "fbjs": "^0.6.1",
     "react-native": "^0.18.0",
+    "react-native-camera": "^0.3.8",
     "react-redux": "^4.0.6",
     "redux": "^3.0.5"
   }
