@@ -6,15 +6,21 @@ export default styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  camera: {
+  contentStyle: {
     width: VIEWPORT.width,
     height: VIEWPORT.width,
   },
   progressBar: {
-    alignSelf: 'flex-start',
+    flexDirection: 'row',
     width: VIEWPORT.width,
     height: 5,
+  },
+  progressBarCompleted: {
     backgroundColor: '#E12440',
+    height: 5,
+  },
+  progressBarRemaining: {
+    height: 5,
   },
   timer: {
     fontSize: 12,

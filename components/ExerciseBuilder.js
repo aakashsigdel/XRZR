@@ -8,6 +8,7 @@ import React, {
   View,
 } from 'react-native';
 import Camera from 'react-native-camera';
+import Video from 'react-native-video';
 import NavBar from './NavBar';
 import { VIEWPORT } from '../constants/appConstants';
 import styles from '../styles/ExerciseBuilder_style';
@@ -18,8 +19,12 @@ export default class ExerciseBuilder extends Component {
     this.state = {
       cameraType: 'back',
       recordState: 'init', // can have 'init', 'recording', 'play'
-      recordingIndicatorLineLength: 0,
+      indicatorLineLength: 0,
+      paused: false,
+      duration: 0.0,
+      currentTime: 0.0,
     };
+    this.videoUrl = '';
   }
 
   componentWillUnmount () {
@@ -27,6 +32,9 @@ export default class ExerciseBuilder extends Component {
   }
 
   render () {
+    let flexCompleted = this.getCurrentTimePercentage() * 100;
+    let flexRemaining = (1 - this.getCurrentTimePercentage()) * 100;
+    console.log('flexes: ', flexCompleted, flexRemaining);
     return (
       <View style={styles.container}>
         <NavBar
@@ -52,23 +60,18 @@ export default class ExerciseBuilder extends Component {
             rightClickFunc={ _=> {this.props.navigator.push({name:'rutine'})} }
             backgroundColor="#F90035"
           />
-          <Camera
-            ref="camera"
-            style={styles.camera}
-            tyle={this.state.cameraType}
-            captureMode={Camera.constants.CaptureMode.video}
-          />
-          <View
-            style={[
-              styles.progressBar,
-              {width: VIEWPORT.width / 14 * this.state.recordingIndicatorLineLength}
-            ]}
-          >
+          { this._renderCameraOrVideo(this.state.cameraOrVideo) }
+          <View style={styles.progressBar}>
+            <View
+              style={[styles.progressBarCompleted, {flex: flexCompleted}]}
+            >
+            </View>
+            <View style={[styles.progressBarRemaining, {flex: flexRemaining}]}></View>
           </View>
           <Text style={styles.timer}>
           {
             this.state.recordState === 'recording'
-            ? 'Length: ' + this.state.recordingIndicatorLineLength + ' sec'
+            ? 'Length: ' + this.state.indicatorLineLength + ' sec'
             : null
           }
         </Text>
@@ -82,6 +85,17 @@ export default class ExerciseBuilder extends Component {
                         onPress={this._handleRecording}
                         style={styles.recordingButton}
                       >
+                      </TouchableOpacity>
+                      );
+                      case 'play':
+                    return (
+                      <TouchableOpacity
+                        onPress={this._handlePauseAndPlay}
+                        style={styles.recordButton}
+                      >
+                        <Text style={styles.recordButtonText}>
+                          {this.state.paused ? 'PLAY' : 'PAUSE'}
+                        </Text>
                       </TouchableOpacity>
                       );
                   case 'init':
@@ -105,13 +119,39 @@ export default class ExerciseBuilder extends Component {
     );
   }
 
+  _renderCameraOrVideo = option => {
+    if (this.state.recordState === 'play') {
+      return (
+        <Video
+          source={{uri: this.videoUrl}}
+          resizeMode="cover"
+          paused={this.state.paused}
+          repeat={true}
+          onProgress={this._onVideoProgress}
+          onLoad={this._onVideoLoad}
+          style={styles.contentStyle}
+        />
+      );
+    } else {
+      return (
+        <Camera
+          ref="camera"
+          style={styles.contentStyle}
+          tyle={this.state.cameraType}
+          captureMode={Camera.constants.CaptureMode.video}
+        />
+      );
+    }
+  };
+
   _handleRecording = () => {
     /*
      * TODO: Integrate Video player for playback
+     * TODO: Squash Bugs
     */
    if (this.state.recordState === 'init') {
      this._cameraStateSetter('recording');
-    this._captureVideo();
+     this._captureVideo();
    } else if (this.state.recordState === 'recording'){
      // clear timer  to stop the progress bar
      this._clearInterval()
@@ -119,8 +159,6 @@ export default class ExerciseBuilder extends Component {
      // stop the capture
      this.refs.camera.stopCapture();
 
-     // set state to play
-     this._cameraStateSetter('play');
    }
   };
 
@@ -135,11 +173,26 @@ export default class ExerciseBuilder extends Component {
         this._clearInterval();
 
         alert('Error: Please try again!');
+        return;
       }
+
+      console.log('video location: ' + data);
+      // set the video url
+      this.videoUrl = data;
+
+      // set state to play
+      this._cameraStateSetter('play');
+      this._clearInterval();
     });
 
     // if everything is okay, start increasing the recording indicator line
     this._setInterval();
+  };
+
+  _handlePauseAndPlay = () => {
+    this.setState({
+      paused: !this.state.paused
+    });
   };
 
   _cameraStateSetter = stateString => {
@@ -150,23 +203,46 @@ export default class ExerciseBuilder extends Component {
 
   _setInterval = () => {
     this.interval = setInterval(() => {
-      this.setState({
-        recordingIndicatorLineLength: this.state.recordingIndicatorLineLength + 1
-      });
-
+      this._setIndicatorLineLength();
       // stop recording indicator when time limit(15 sec) is reached
-      if (this.state.recordingIndicatorLineLength >= 14) {
+      if (this.state.indicatorLineLength >= 14) {
         this._clearInterval();
-        this.refs.camera.stopCapture(); 
 
-        // set state to play
-        this._cameraStateSetter('play');
+        //stop the capture if the camera is recording
+        if(this.state.recordState === 'recording')
+          this.refs.camera.stopCapture(); 
       }
     }, 1000);
   };
 
+  _setIndicatorLineLength = () => {
+    this.setState({
+      indicatorLineLength: this.state.indicatorLineLength + 1
+    });
+  };
+
+  _onVideoLoad = (data) => {
+    this.setState({
+      duration: data.duration,
+    });
+  };
+
+  _onVideoProgress = data => {
+    this.setState({currentTime: data.currentTime});
+  };
+
+  getCurrentTimePercentage = () => {
+    if (this.state.currentTime > 0) {
+      return parseFloat(this.state.currentTime) / parseFloat(this.state.duration);
+    }
+    return 0;
+  };
+
   _clearInterval = () => {
-    if (this.interval)
+    if (this.interval) {
       clearInterval(this.interval);
+      console.log('cleared timer');
+      debugger;
+    }
   };
 }
