@@ -1,12 +1,14 @@
 import React, {
     Component,
-    ScrollView,
+    ListView,
     TouchableOpacity,
     View, Image, Text
 } from 'react-native';
 
 import NavBar from "./NavBar";
 import styles from "../styles/Rutine_styles";
+
+let ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 class NavigationBar extends Component {
   render(){
@@ -26,7 +28,6 @@ class NavigationBar extends Component {
     )
   }
 }
-
 
 class RutineItem extends Component {
   render(){
@@ -49,28 +50,38 @@ class RutineItem extends Component {
 }
 
 export default class RutineAdder extends Component {
-  render(){
-    let exerciseList = this.props.exercises.map(
-      (exercise, index)=>
-        <RutineItem key={index} item={exercise}
-                    itemId={index}
-                    onItemSelect={
-                      (itemId)=>{
-                        this.props.onExerciseItemSelect(itemId);
-                        this.props.navigator.pop();
-                      }
-                    }
-        />
-    );
+  constructor(props){
+    super(props);
 
+    this.state = {
+      dataSource: ds.cloneWithRows(Object.keys(this.props.exercises)),
+    };
+  }
+
+  _populateList(key){
+    const onItemSelect = itemId =>{
+      this.props.onExerciseItemSelect(itemId);
+      this.props.navigator.pop();
+    };
+
+    let exercise = this.props.exercises[key];
+    return <RutineItem item={exercise}
+                      itemId={exercise['id']}
+                      onItemSelect={_=> onItemSelect(exercise['id'])}
+    />
+  };
+
+  render(){
     return (
-      <View>
+      <View style={{flex:1}}>
         <NavigationBar navigator={this.props.navigator} />
-        <ScrollView contentContainerStyle={styles.container} >
-          { exerciseList }
-        </ScrollView>
+        <ListView dataSource={this.state.dataSource}
+                  renderRow={this._populateList.bind(this)} />
+
       </View>
     );
   }
 }
+
+
 

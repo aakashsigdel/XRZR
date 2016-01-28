@@ -46,6 +46,7 @@ export default class XRZRApp extends Component {
       case 'rutine':
         return <Rutine
           dispatch={this.props.dispatch}
+          userPlans={this.props.state.userPlans}
           exercises={this.props.state.exercises}
           navigator={navigator}
         />;
@@ -73,6 +74,7 @@ export default class XRZRApp extends Component {
         initialRoute={{name: 'rutine'}}
         renderScene={this._renderScene}
         sceneStyle={{backgroundColor: 'black'}}
+        style={{flex:1}}
       />
     );
   }
