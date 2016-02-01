@@ -40,19 +40,22 @@ const NavigationBar = (props) => {
 }
 
 const ExerciseItem = (props) => {
-  return <View
-            style={styles.row}
-          >
-            <Image
-              source={require('../assets/images/rowPlaceholder.png')}
-              style={styles.titleImage}
-            />
-            <Text
-              style={styles.text}
-            >
-              {props.userPlanId +". " + props.exerciseTitle}
-            </Text>
-          </View>
+  return (
+    <TouchableOpacity
+      onPress={_=> {props.navigator.push({name: 'exerciseBuilder'});}}
+      style={styles.row}
+    >
+      <Image
+        source={require('../assets/images/rowPlaceholder.png')}
+        style={styles.titleImage}
+      />
+      <Text
+        style={styles.text}
+      >
+        {props.userPlanId +". " + props.exerciseTitle}
+      </Text>
+    </TouchableOpacity>
+  );
 }
 
 
@@ -71,6 +74,7 @@ export default class Rutine extends Component {
     return <ExerciseItem
       userPlanId={userPlan.id}
       exerciseTitle={selectedExercise.title}
+      navigator={this.props.navigator}
     />
   }
 

@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import Rutine from '../components/Rutine';
 import RutineAdder from "../components/RutineAdder";
 import ExerciseBuilder from '../components/ExerciseBuilder';
-import {addUserPlan} from "../actions/index"
+import { addUserPlan, addVideo } from "../actions/index"
 
 export default class XRZRApp extends Component {
   constructor (props) {
@@ -60,9 +60,12 @@ export default class XRZRApp extends Component {
             (exerciseId)=>{this.props.dispatch(addUserPlan(exerciseId))}
             }
           />
-        case 'builder':
+        case 'exerciseBuilder':
           return <ExerciseBuilder
             navigator={navigator}
+            onVideoSubmit={
+              (videoURL, videoLength) => {this.props.dispatch(addVideo({videoURL, videoLength}))}
+            }
           />
       default:
         return <Text style={{color:"white"}}>

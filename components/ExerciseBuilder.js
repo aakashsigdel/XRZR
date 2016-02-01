@@ -12,6 +12,7 @@ import Video from 'react-native-video';
 import NavBar from './NavBar';
 import { VIEWPORT } from '../constants/appConstants';
 import styles from '../styles/ExerciseBuilder_style';
+import { addVideo } from '../actions';
 
 export default class ExerciseBuilder extends Component {
   constructor () {
@@ -57,7 +58,13 @@ export default class ExerciseBuilder extends Component {
               fontSize: 15,
               marginTop: 10,
             }}
-            rightClickFunc={ _=> {this.props.navigator.push({name:'rutine'})} }
+            rightClickFunc={ _=> {
+              this.props.onVideoSubmit({
+                videoURL: this.videoUrl,
+                videoLength: this.state.duration,
+              });
+              this.props.navigator.pop();
+            } }
             backgroundColor="#F90035"
           />
           { this._renderCameraOrVideo(this.state.cameraOrVideo) }
